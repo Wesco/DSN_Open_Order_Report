@@ -6,7 +6,7 @@ Private Declare Function ShellExecute _
                           Lib "shell32.dll" Alias "ShellExecuteA" ( _
                               ByVal hWnd As Long, _
                               ByVal Operation As String, _
-                              ByVal Filename As String, _
+                              ByVal FileName As String, _
                               Optional ByVal Parameters As String, _
                               Optional ByVal Directory As String, _
                               Optional ByVal WindowStyle As Long = vbMaximizedFocus _
@@ -120,7 +120,7 @@ End Sub
 Sub ImportModule()
     Dim comp As Variant
     Dim codeFolder As String
-    Dim Filename As String
+    Dim FileName As String
     Dim WkbkPath As String
 
     'Adds a reference to Microsoft Visual Basic for Applications Extensibility 5.3
@@ -136,17 +136,17 @@ Sub ImportModule()
         If comp.Name <> "All_Helper_Functions" Then
             Select Case comp.Type
                 Case 1
-                    Filename = codeFolder & comp.Name & ".bas"
+                    FileName = codeFolder & comp.Name & ".bas"
                     ThisWorkbook.VBProject.VBComponents.Remove comp
-                    ThisWorkbook.VBProject.VBComponents.Import Filename
+                    ThisWorkbook.VBProject.VBComponents.Import FileName
                 Case 2
-                    Filename = codeFolder & comp.Name & ".cls"
+                    FileName = codeFolder & comp.Name & ".cls"
                     ThisWorkbook.VBProject.VBComponents.Remove comp
-                    ThisWorkbook.VBProject.VBComponents.Import Filename
+                    ThisWorkbook.VBProject.VBComponents.Import FileName
                 Case 3
-                    Filename = codeFolder & comp.Name & ".frm"
+                    FileName = codeFolder & comp.Name & ".frm"
                     ThisWorkbook.VBProject.VBComponents.Remove comp
-                    ThisWorkbook.VBProject.VBComponents.Import Filename
+                    ThisWorkbook.VBProject.VBComponents.Import FileName
             End Select
         End If
     Next
@@ -225,6 +225,6 @@ Function FindColumn(ByVal HeaderText As String, Optional SearchArea As Range) As
         End If
     Next
 
-    If FindColumn = 0 Then ERR.Raise CustErr.COLNOTFOUND, "FindColumn", HeaderText
+    If FindColumn = 0 Then Err.Raise CustErr.COLNOTFOUND, "FindColumn", HeaderText
 End Function
 

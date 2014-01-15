@@ -9,7 +9,7 @@ Option Explicit
 Sub ExportCode()
     Dim comp As Variant
     Dim codeFolder As String
-    Dim Filename As String
+    Dim FileName As String
     Dim File As String
     Dim WkbkPath As String
 
@@ -36,18 +36,18 @@ Sub ExportCode()
     For Each comp In ThisWorkbook.VBProject.VBComponents
         Select Case comp.Type
             Case 1
-                Filename = codeFolder & comp.Name & ".bas"
-                comp.Export Filename
+                FileName = codeFolder & comp.Name & ".bas"
+                comp.Export FileName
             Case 2
-                Filename = codeFolder & comp.Name & ".cls"
-                comp.Export Filename
+                FileName = codeFolder & comp.Name & ".cls"
+                comp.Export FileName
             Case 3
-                Filename = codeFolder & comp.Name & ".frm"
-                comp.Export Filename
+                FileName = codeFolder & comp.Name & ".frm"
+                comp.Export FileName
             Case 100
                 If comp.Name = "ThisWorkbook" Then
-                    Filename = codeFolder & comp.Name & ".bas"
-                    comp.Export Filename
+                    FileName = codeFolder & comp.Name & ".bas"
+                    comp.Export FileName
                 End If
         End Select
     Next

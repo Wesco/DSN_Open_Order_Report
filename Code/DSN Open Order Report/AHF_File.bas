@@ -94,7 +94,7 @@ End Sub
 ' Date : 3/19/2013
 ' Desc : Deletes a file
 '---------------------------------------------------------------------------------------
-Sub DeleteFile(Filename As String)
+Sub DeleteFile(FileName As String)
     On Error Resume Next
-    Kill Filename
+    Kill FileName
 End Sub
