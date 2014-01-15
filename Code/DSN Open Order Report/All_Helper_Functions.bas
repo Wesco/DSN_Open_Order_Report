@@ -32,6 +32,7 @@ End Enum
 'List of custom error messages
 Enum CustErr
     COLNOTFOUND = 50000
+    INVALID_COLUMN_ORDER = 50001
 End Enum
 
 'Used when importing 117 to determine the type of report to pull

@@ -44,7 +44,6 @@ Sub Import117()
     For i = 0 To 30
         dt = Date - i
         FileName = "3615 " & Format(dt, "yyyy-mm-dd") & " ALLORDERS.xlsx"
-
         If FileExists(FilePath & FileName) Then
             Exit For
         End If
@@ -54,13 +53,11 @@ Sub Import117()
     If FileExists(FilePath & FileName) Then
         PrevDispAlert = Application.DisplayAlerts
         Application.DisplayAlerts = False
-
         Workbooks.Open FilePath & FileName
         ActiveSheet.UsedRange.Copy Destination:=ThisWorkbook.Sheets("117").Range("A1")
         ActiveWorkbook.Close
-
         Application.DisplayAlerts = PrevDispAlert
     Else
-        Err.Raise Errors.FILE_NOT_FOUND, "Import117", "117 Report could not be found."
+        Err.Raise Errors.FILE_NOT_FOUND, "Import117", "The 117 report could not be found."
     End If
 End Sub
