@@ -71,10 +71,10 @@ Sub ImportGaps(Optional Destination As Range, Optional SimsAsText As Boolean = T
             
             Range("A2:A" & iRows).Value = Range("A2:A" & iRows).Value
         Else
-            ERR.Raise 18, "ImportGaps", "Import canceled"
+            Err.Raise 18, "ImportGaps", "Import canceled"
         End If
     Else
-        ERR.Raise 53, "ImportGaps", "Gaps could not be found."
+        Err.Raise 53, "ImportGaps", "Gaps could not be found."
     End If
 
     Application.DisplayAlerts = True
@@ -92,13 +92,13 @@ End Sub
 ' Date : 1/29/2013
 ' Desc : Prompts the user to select a file for import
 '---------------------------------------------------------------------------------------
-Sub UserImportFile(DestRange As Range, Optional DelFile As Boolean = False, Optional ShowAllData As Boolean = False, Optional SourceSheet As String = "", Optional FileFilter = "")
+Sub UserImportFile(DestRange As Range, Optional DelFile As Boolean = False, Optional ShowAllData As Boolean = False, Optional SourceSheet As String = "", Optional FileFilter = "", Optional Title = "Select a file")
     Dim File As String              'Full path to user selected file
     Dim FileDate As String          'Date the file was last modified
     Dim OldDispAlert As Boolean     'Original state of Application.DisplayAlerts
 
     OldDispAlert = Application.DisplayAlerts
-    File = Application.GetOpenFilename(FileFilter)
+    File = Application.GetOpenFilename(FileFilter, Title:=Title)
 
     Application.DisplayAlerts = False
     If File <> "False" Then
@@ -120,7 +120,7 @@ Sub UserImportFile(DestRange As Range, Optional DelFile As Boolean = False, Opti
             DeleteFile File
         End If
     Else
-        ERR.Raise 18
+        Err.Raise 18, "UserImportFile", "User Interrupt"
     End If
     Application.DisplayAlerts = OldDispAlert
 End Sub
@@ -132,29 +132,29 @@ End Sub
 '---------------------------------------------------------------------------------------
 Sub Import117byISN(RepType As ReportType, Destination As Range, Optional ByVal ISN As String = "", Optional Cancel As Boolean = False)
     Dim sPath As String
-    Dim Filename As String
+    Dim FileName As String
 
     If ISN = "" And Cancel = False Then
         ISN = InputBox("Inside Sales Number:", "Please enter the ISN#")
     Else
         If ISN = "" Then
-            ERR.Raise 53
+            Err.Raise 53
         End If
     End If
 
     If ISN <> "" Then
         Select Case RepType
             Case ReportType.DS:
-                Filename = "3615 " & Format(Date, "m-dd-yy") & " DSORDERS.xlsx"
+                FileName = "3615 " & Format(Date, "m-dd-yy") & " DSORDERS.xlsx"
 
             Case ReportType.BO:
-                Filename = "3615 " & Format(Date, "m-dd-yy") & " BACKORDERS.xlsx"
+                FileName = "3615 " & Format(Date, "m-dd-yy") & " BACKORDERS.xlsx"
 
             Case ReportType.ALL
-                Filename = "3615 " & Format(Date, "m-dd-yy") & " ALLORDERS.xlsx"
+                FileName = "3615 " & Format(Date, "m-dd-yy") & " ALLORDERS.xlsx"
         End Select
 
-        sPath = "\\br3615gaps\gaps\3615 117 Report\ByInsideSalesNumber\" & ISN & "\" & Filename
+        sPath = "\\br3615gaps\gaps\3615 117 Report\ByInsideSalesNumber\" & ISN & "\" & FileName
 
         If FileExists(sPath) Then
             Workbooks.Open sPath
@@ -166,7 +166,7 @@ Sub Import117byISN(RepType As ReportType, Destination As Range, Optional ByVal I
             MsgBox Prompt:=ReportTypeText(RepType) & " report not found.", Title:="Error 53"
         End If
     Else
-        ERR.Raise 18
+        Err.Raise 18
     End If
 End Sub
 
@@ -177,11 +177,11 @@ End Sub
 '---------------------------------------------------------------------------------------
 Sub Import473(Destination As Range, Optional Branch As String = "3615")
     Dim sPath As String
-    Dim Filename As String
+    Dim FileName As String
     Dim AlertStatus As Boolean
 
-    Filename = "473 " & Format(Date, "m-dd-yy") & ".xlsx"
-    sPath = "\\br3615gaps\gaps\" & Branch & " 473 Download\" & Filename
+    FileName = "473 " & Format(Date, "m-dd-yy") & ".xlsx"
+    sPath = "\\br3615gaps\gaps\" & Branch & " 473 Download\" & FileName
     AlertStatus = Application.DisplayAlerts
 
     If FileExists(sPath) Then
@@ -193,7 +193,7 @@ Sub Import473(Destination As Range, Optional Branch As String = "3615")
         Application.DisplayAlerts = AlertStatus
     Else
         MsgBox Prompt:="473 report not found."
-        ERR.Raise 18
+        Err.Raise 18
     End If
 End Sub
 
