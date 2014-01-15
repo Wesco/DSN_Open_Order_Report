@@ -5,10 +5,11 @@ Public Const RepositoryName = "DSN_Open_Order_Report"
 
 Sub Main()
     On Error GoTo IMPORT_ERR
-    ImportMaster
     UserImportFile DestRange:=Sheets("DSN Master").Range("A1"), _
                    FileFilter:="XLSX Files (*.xlsx),*.xlsx,XLS Files (*.xls),*.xls,All Files (*.*),*.*", _
                    Title:="Select a Doosan open order report"
+    ImportMaster
+    Import117
     On Error GoTo 0
     Exit Sub
 
