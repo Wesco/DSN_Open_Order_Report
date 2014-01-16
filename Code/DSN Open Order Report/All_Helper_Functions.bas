@@ -33,6 +33,7 @@ End Enum
 Enum CustErr
     COLNOTFOUND = 50000
     INVALID_COLUMN_ORDER = 50001
+    UNRECOGNIZED_REPORT = 50002
 End Enum
 
 'Used when importing 117 to determine the type of report to pull
