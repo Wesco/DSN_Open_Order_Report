@@ -2,16 +2,27 @@ Attribute VB_Name = "Program"
 Option Explicit
 Public Const VersionNumber = "1.0.0"
 Public Const RepositoryName = "DSN_Open_Order_Report"
-Public OORType As String    'This is set by Format117 and will be either aftermarket or production
+Public OORType As String    'This will be either aftermarket or production
 
 Sub Main()
     On Error GoTo MAIN_ERR
     UserImportFile DestRange:=Sheets("DSN OOR").Range("A1"), _
                    FileFilter:="XLSX Files (*.xlsx),*.xlsx,XLS Files (*.xls),*.xls,All Files (*.*),*.*", _
                    Title:="Select a Doosan open order report"
+
+    'Determine if the report is aftermarket or production
+    If Sheets("DSN OOR").Range("B1").Value = "PPZ Service Parts Inventory Org" Then
+        OORType = "aftermarket"
+    ElseIf Sheets("DSN OOR").Range("B1").Value = "STA Inventory Org" Then
+        OORType = "production"
+    Else
+        Err.Raise CustErr.UNRECOGNIZED_REPORT, "FormatOOR", "The imported report is unrecognized."
+    End If
+
     ImportMaster
     Import117
     Format117
+    FormatOOR
     On Error GoTo 0
     Exit Sub
 

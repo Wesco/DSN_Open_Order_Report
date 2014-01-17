@@ -7,28 +7,58 @@ Option Explicit
 ' Desc : Formats Doosans open order report
 '---------------------------------------------------------------------------------------
 Sub FormatOOR()
+    Dim ColHeaders As Variant
+    Dim TotalCols As Integer
     Dim TotalRows As Long
+    Dim i As Integer
     
     Sheets("DSN OOR").Select
-    
-    'Determine if the report is aftermarket or production
-    If Range("B1").Value = "PPZ Service Parts Inventory Org" Then
-        OORType = "aftermarket"
-    ElseIf Range("B1").Value = "STA Inventory Org" Then
-        OORType = "production"
-    Else
-        Err.Raise CustErr.UNRECOGNIZED_REPORT, "FormatOOR", "The imported report is unrecognized."
-    End If
     
     'Remove header data
     Rows("1:8").Delete
     TotalRows = ActiveSheet.UsedRange.Rows.Count
-    
+
+    'Store correct column header order
+    ColHeaders = Array("Source Type", _
+                       "Part Number", _
+                       "Description", _
+                       "Order Number", _
+                       "Buyer Name", _
+                       "Release Number", _
+                       "Line Number", _
+                       "Shipment Number", _
+                       "Expected Quantity", _
+                       "Ordered Quantity", _
+                       "Expected ASN Quantity", _
+                       "Lead Time", _
+                       "Due Date", _
+                       "Supplier Number", _
+                       "Supplier Name", _
+                       "Supplier Site", _
+                       "Planner")
+
+    'Compare correct column headers to actual column headers
+    For i = 0 To UBound(ColHeaders)
+        If Cells(1, i + 1).Value <> ColHeaders(i) Then
+            Err.Raise CustErr.INVALID_COLUMN_ORDER, "FormatOOR", "The Doosan OOR column order is invalid."
+        End If
+    Next
+
     'Create UID column
     Columns(1).Insert
     Range("A1").Value = "UID"
     Range("A2:A" & TotalRows).Formula = "=""'""&E2&""-""&G2&C2"
     Range("A2:A" & TotalRows).Value = Range("A2:A" & TotalRows).Value
+    
+    TotalCols = ActiveSheet.UsedRange.Columns.Count
+    ColHeaders = Range(Cells(1, 1), Cells(1, TotalCols)).Value
+
+    If OORType = "production" Then
+        ActiveSheet.UsedRange.AutoFilter 18, "=WESCO"
+        Cells.Delete
+        Rows(1).Insert
+        Range(Cells(1, 1), Cells(1, TotalCols)).Value = ColHeaders
+    End If
 End Sub
 
 '---------------------------------------------------------------------------------------
