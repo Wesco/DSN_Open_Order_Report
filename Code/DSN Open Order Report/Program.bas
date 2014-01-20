@@ -6,6 +6,7 @@ Public OORType As String    'This will be either aftermarket or production
 
 Sub Main()
     On Error GoTo MAIN_ERR
+    Application.ScreenUpdating = False
     UserImportFile DestRange:=Sheets("DSN OOR").Range("A1"), _
                    FileFilter:="XLSX Files (*.xlsx),*.xlsx,XLS Files (*.xls),*.xls,All Files (*.*),*.*", _
                    Title:="Select a Doosan open order report"
@@ -21,9 +22,15 @@ Sub Main()
 
     ImportMaster
     Import117
-    
-    FormatOOR
+    ImportPrevOOR
+    FormatDSNOOR
     Format117
+    CreateOOR
+    FormatOOR
+    ExportOOR
+    Clean
+    Application.ScreenUpdating = True
+    MsgBox "Complete!"
     On Error GoTo 0
     Exit Sub
 

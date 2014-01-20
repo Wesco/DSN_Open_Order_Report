@@ -77,8 +77,14 @@ Sub ImportPrevOOR()
     'Look back up to 30 days for the combined open order report
     For i = 1 To 30
         dt = Date - i
-        FileName = "OOR " & Format(dt, "yyyy-mm-dd") & ".xlsx"
         FilePath = "\\7938-HP02\Shared\Doosan\Open Order Report\" & Format(dt, "yyyy") & "\" & Format(dt, "mmm") & "\"
+        If OORType = "aftermarket" Then
+            FileName = "Aftermarket OOR " & Format(dt, "yyyy-mm-dd") & ".xlsx"
+        ElseIf OORType = "production" Then
+            FileName = "Production OOR " & Format(dt, "yyyy-mm-dd") & ".xlsx"
+        Else
+            Err.Raise CustErr.UNRECOGNIZED_REPORT, "ExportOOR", "The report type could not be verified."
+        End If
 
         If FileExists(FilePath & FileName) Then
             Exit For
@@ -98,6 +104,6 @@ Sub ImportPrevOOR()
 
         Application.DisplayAlerts = PrevDispAlert
     Else
-        Err.Raise Errors.FILE_NOT_FOUND, "Import117", "117 Report not found."
+        MsgBox "A previous OOR for " & OORType & " could not be found.", vbOKOnly, "Report not found"
     End If
 End Sub

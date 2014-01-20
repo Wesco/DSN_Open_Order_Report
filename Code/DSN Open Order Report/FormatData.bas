@@ -2,11 +2,11 @@ Attribute VB_Name = "FormatData"
 Option Explicit
 
 '---------------------------------------------------------------------------------------
-' Proc : FormatOOR
+' Proc : FormatDSNOOR
 ' Date : 1/15/2014
 ' Desc : Formats Doosans open order report
 '---------------------------------------------------------------------------------------
-Sub FormatOOR()
+Sub FormatDSNOOR()
     Dim ColHeaders As Variant
     Dim TotalCols As Integer
     Dim TotalRows As Long
@@ -147,10 +147,24 @@ Sub Format117()
     Range("E2:E" & TotalRows).Value = Range("E2:E" & TotalRows).Value
     Columns(6).Delete
 
+    'Remove extra spaces from promise dates
+    Columns(12).Insert
+    Range("L1").Value = "PROMISE DATE"
+    Range("L2:L" & TotalRows).Formula = "=SUBSTITUTE(M2,"" "","""")"
+    Range("L2:L" & TotalRows).Value = Range("L2:L" & TotalRows).Value
+    Range("L2:L" & TotalRows).NumberFormat = "yyyy/mm/dd"
+    Columns(13).Delete
+
+    'Remove extra spaces from supplier numbers
+    Columns(13).Insert
+    Range("M1").Value = "SUPPLIER NUM"
+    Range("M2:M" & TotalRows).Formula = "=IF(SUBSTITUTE(N2,"" "","""")="""","""",""'""&SUBSTITUTE(N2,"" "",""""))"
+    Range("M2:M" & TotalRows).Value = Range("M2:M" & TotalRows).Value
+    Columns(14).Delete
+
     'Lookup missing part numbers by description on Master
     Columns(3).Insert
     Range("C1").Value = "CUSTOMER PART NUMBER"
-
     'If the part number is blank try to find it on the master using its description
     Range("C2:C" & TotalRows).Formula = "=IFERROR(IF(D2="""",""'"" & INDEX(Master!A:A,MATCH(F2,Master!C:C,0)),""'"" & D2),"""")"
     Range("C2:C" & TotalRows).Value = Range("C2:C" & TotalRows).Value
@@ -213,4 +227,49 @@ Sub Format117()
     TotalRows = ActiveSheet.UsedRange.Rows.Count
     Range("A2:A" & TotalRows).Formula = "=""="""""" & C2 & D2 & """""""""
     Range("A2:A" & TotalRows).Value = Range("A2:A" & TotalRows).Value
+End Sub
+
+'---------------------------------------------------------------------------------------
+' Proc : FormatOOR
+' Date : 1/20/2014
+' Desc : Format the open order report
+'---------------------------------------------------------------------------------------
+Sub FormatOOR()
+    Dim TotalCols As Integer
+    
+    Sheets("Open Order Report").Select
+    TotalCols = ActiveSheet.UsedRange.Columns.Count
+
+    With ActiveSheet.UsedRange
+        .Borders(xlDiagonalDown).LineStyle = xlNone
+        .Borders(xlDiagonalUp).LineStyle = xlNone
+        .Borders(xlEdgeLeft).LineStyle = xlNone
+        .Borders(xlEdgeTop).LineStyle = xlNone
+        .Borders(xlEdgeBottom).LineStyle = xlNone
+        .Borders(xlEdgeRight).LineStyle = xlNone
+        .Borders(xlInsideVertical).LineStyle = xlNone
+        .Borders(xlInsideHorizontal).LineStyle = xlNone
+        .Interior.Pattern = xlNone
+        .Interior.TintAndShade = 0
+        .Interior.PatternTintAndShade = 0
+        .Font.ColorIndex = xlAutomatic
+        .Font.TintAndShade = 0
+        .Font.Name = "Calibri"
+        .Font.Size = 11
+        .Font.Strikethrough = False
+        .Font.Superscript = False
+        .Font.Subscript = False
+        .Font.OutlineFont = False
+        .Font.Shadow = False
+        .Font.Underline = xlUnderlineStyleNone
+        .Font.ColorIndex = xlAutomatic
+        .Font.TintAndShade = 0
+        .Font.ThemeFont = xlThemeFontMinor
+        .Font.Bold = False
+    End With
+
+    ActiveSheet.ListObjects.Add(xlSrcRange, ActiveSheet.UsedRange, , xlYes).Name = "Table1"
+    ActiveSheet.ListObjects(1).Unlist
+    Range(Cells(1, 1), Cells(1, TotalCols)).Font.Color = RGB(255, 255, 255)
+    Range("A1").Select
 End Sub
