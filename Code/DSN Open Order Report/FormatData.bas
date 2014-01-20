@@ -11,9 +11,9 @@ Sub FormatOOR()
     Dim TotalCols As Integer
     Dim TotalRows As Long
     Dim i As Integer
-    
+
     Sheets("DSN OOR").Select
-    
+
     'Remove header data
     Rows("1:8").Delete
     TotalRows = ActiveSheet.UsedRange.Rows.Count
@@ -49,7 +49,7 @@ Sub FormatOOR()
     Range("A1").Value = "UID"
     Range("A2:A" & TotalRows).Formula = "=""'""&E2&""-""&G2&C2"
     Range("A2:A" & TotalRows).Value = Range("A2:A" & TotalRows).Value
-    
+
     TotalCols = ActiveSheet.UsedRange.Columns.Count
     ColHeaders = Range(Cells(1, 1), Cells(1, TotalCols)).Value
 
@@ -182,9 +182,35 @@ Sub Format117()
         End If
     Next
 
+    'Load customer part list into array
+    Sheets("DSN OOR").Select
+    TotalRows = ActiveSheet.UsedRange.Rows.Count
+    PartList = Range("C2:C" & TotalRows)
+
+    'Find part numbers in item descriptions
+    Sheets("117").Select
+    For i = 1 To UBound(DescList)
+        'If CUSTOMER PART NUMBER is blank
+        If Cells(i + 1, 3).Value = "" Then
+            'See if any part numbers are in the item description
+            For j = 1 To UBound(PartList)
+                If PartList(j, 1) <> "" Then
+                    Result = InStr(1, DescList(i, 1), PartList(j, 1))
+                Else
+                    Result = 0
+                End If
+                If Result <> 0 Then
+                    Cells(i + 1, 3).Value = PartList(j, 1)
+                    Exit For
+                End If
+            Next
+        End If
+    Next
+
     'Create UID column
     Columns(1).Insert
     Range("A1").Value = "UID"
+    TotalRows = ActiveSheet.UsedRange.Rows.Count
     Range("A2:A" & TotalRows).Formula = "=""="""""" & C2 & D2 & """""""""
     Range("A2:A" & TotalRows).Value = Range("A2:A" & TotalRows).Value
 End Sub

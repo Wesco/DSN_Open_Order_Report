@@ -21,8 +21,9 @@ Sub Main()
 
     ImportMaster
     Import117
-    Format117
+    
     FormatOOR
+    Format117
     On Error GoTo 0
     Exit Sub
 
