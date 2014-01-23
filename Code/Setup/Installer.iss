@@ -14,15 +14,15 @@
 AppId={{8F6FE4D7-82BF-4199-9B53-F3691A7303D9}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
-;AppVerName={#MyAppName} {#MyAppVersion}
+AppVerName={#MyAppName} {#MyAppVersion}
 AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
-DefaultDirName={pf}\{#MyAppName}
-DefaultGroupName={#MyAppName}
+DefaultDirName={pf}\Macros\{#MyAppName}
+DefaultGroupName=Macros
 AllowNoIcons=yes
-OutputBaseFilename=..\..\..\Setup
+OutputBaseFilename=Setup
 Compression=lzma
 SolidCompression=yes
 
@@ -30,7 +30,7 @@ SolidCompression=yes
 Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Tasks]
-Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
+Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}";
 
 [Files]
 Source: "..\..\DSN Open Order Report.xlsm"; DestDir: "{app}"; Flags: ignoreversion
@@ -38,6 +38,4 @@ Source: "..\..\DSN Open Order Report.xlsm"; DestDir: "{app}"; Flags: ignoreversi
 
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
-Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
 Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
-

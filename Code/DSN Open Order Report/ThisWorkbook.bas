@@ -20,21 +20,5 @@ Private Sub Workbook_BeforeSave(ByVal SaveAsUI As Boolean, Cancel As Boolean)
 End Sub
 
 Private Sub Workbook_Open()
-    On Error GoTo UPDATE_ERROR
     CheckForUpdates RepositoryName, VersionNumber
-    On Error GoTo 0
-    Exit Sub
-
-UPDATE_ERROR:
-    If MsgBox("An error occured while checking for updates." & vbCrLf & vbCrLf & _
-              "Would you like to open the website to download the latest version?", vbYesNo) = vbYes Then
-
-        OpenInBrowser "http://github.com/Wesco/" & RepositoryName & "/releases/"
-
-        If Workbooks.Count = 1 Then
-            Application.Quit
-        Else
-            ThisWorkbook.Close
-        End If
-    End If
 End Sub

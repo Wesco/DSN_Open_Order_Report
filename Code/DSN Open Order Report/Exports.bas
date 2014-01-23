@@ -6,6 +6,7 @@ Sub ExportOOR()
     Dim FilePath As String
     Dim FileName As String
     Dim FileExt As String
+    Dim EmailSubj As String
 
     PrevDispAlert = Application.DisplayAlerts
     FilePath = "\\7938-HP02\Shared\Doosan\Open Order Report\" & Format(Date, "yyyy") & "\" & Format(Date, "mmm") & "\"
@@ -13,8 +14,10 @@ Sub ExportOOR()
 
     If OORType = "aftermarket" Then
         FileName = "Aftermarket OOR " & Format(Date, "yyyy-mm-dd")
+        EmailSubj = "DSN Open Order Report (Aftermarket)"
     ElseIf OORType = "production" Then
         FileName = "Production OOR " & Format(Date, "yyyy-mm-dd")
+        EmailSubj = "DSN Open Order Report (Production)"
     Else
         Err.Raise CustErr.UNRECOGNIZED_REPORT, "ExportOOR", "The report type could not be verified."
     End If
@@ -29,6 +32,6 @@ Sub ExportOOR()
     Application.DisplayAlerts = PrevDispAlert
 
     Email SendTo:="bhunter@wesco.com; snelson@wesco.com; tyklein@wesco.com", _
-          Subject:="DSN Open Order Report", _
-          Body:="An updated copy of the Doosan open order report can be found on the network <a href=""" & FilePath & FileName & FileExt & """" & ">here</a>."
+          Subject:=EmailSubj, _
+          Body:="An updated copy of the Doosan " & OORType & " open order report can be found on the network <a href=""" & FilePath & FileName & FileExt & """" & ">here</a>."
 End Sub
