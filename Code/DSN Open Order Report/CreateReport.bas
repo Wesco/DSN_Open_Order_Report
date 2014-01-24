@@ -1,6 +1,55 @@
 Attribute VB_Name = "CreateReport"
 Option Explicit
 
+'---------------------------------------------------------------------------------------
+' Proc : CreateDSNReport
+' Date : 1/24/2014
+' Desc : Create an open order report to send to Doosan
+'---------------------------------------------------------------------------------------
+Sub CreateDSNReport()
+    Dim TotalCols As Integer
+    Dim TotalRows As Long
+    Dim Col As Integer
+    Dim i As Integer
+
+    Sheets("Prev OOR").Select
+    TotalCols = ActiveSheet.UsedRange.Columns.Count
+    TotalRows = ActiveSheet.UsedRange.Rows.Count
+
+    For i = 1 To TotalCols
+        Select Case Cells(1, i).Value
+            Case "Order Number"
+                Col = 2
+            Case "Release Number"
+                Col = 3
+            Case "Shipment Number"
+                Col = 4
+            Case "Part Number"
+                Col = 1
+            Case "Description"
+                Col = 5
+            Case "Due Date"
+                Col = 6
+            Case "Ordered"
+                Col = 7
+            Case "BO"
+                Col = 8
+            Case "RTS"
+                Col = 9
+            Case "Status"
+                Col = 10
+            Case "Notes"
+                Col = 11
+            Case Else
+                Col = 0
+        End Select
+
+        If Col > 0 Then
+            Range(Cells(1, i), Cells(TotalRows, i)).Copy Destination:=Sheets("DSN Report").Cells(1, Col)
+        End If
+    Next
+End Sub
+
 Sub CreateOOR()
     Dim TotalRows As Long
     Dim PrevOORCols As Integer
