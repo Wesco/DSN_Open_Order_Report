@@ -282,7 +282,7 @@ Sub FormatDSNReport()
     TotalRows = ActiveSheet.UsedRange.Rows.Count
 
     For i = 2 To TotalRows
-        If Cells(i, 8).Value = 0 Then
+        If Cells(i, 8).Value > 0 Then
             With Cells(i, 8).Interior
                 .Pattern = xlSolid
                 .PatternThemeColor = xlThemeColorAccent1
@@ -292,4 +292,6 @@ Sub FormatDSNReport()
             End With
         End If
     Next
+    
+    ActiveSheet.Columns.AutoFit
 End Sub

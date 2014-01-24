@@ -75,7 +75,7 @@ Sub ImportPrevOOR()
     Dim i As Long
 
     'Look back up to 30 days for the combined open order report
-    For i = 1 To 30
+    For i = 0 To 30
         dt = Date - i
         FilePath = "\\7938-HP02\Shared\Doosan\Open Order Report\" & Format(dt, "yyyy") & "\" & Format(dt, "mmm") & "\"
         If OORType = "aftermarket" Then

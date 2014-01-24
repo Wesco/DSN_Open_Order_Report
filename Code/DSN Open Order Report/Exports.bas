@@ -35,3 +35,34 @@ Sub ExportOOR()
           Subject:=EmailSubj, _
           Body:="An updated copy of the Doosan " & OORType & " open order report can be found on the network <a href=""" & FilePath & FileName & FileExt & """" & ">here</a>."
 End Sub
+
+Sub ExportDSNReport()
+    Dim PrevDispAlert As Boolean
+    Dim FileName As String
+    Dim FilePath As String
+    Dim EmailTo As String
+
+    PrevDispAlert = Application.DisplayAlerts
+    FilePath = "\\7938-HP02\Shared\Doosan\Open Order Report\" & Year(Date) & "\" & Format(Date, "mmm") & "\"
+
+    If OORType = "aftermarket" Then
+        FileName = "DSN Report " & Format(Date, "yyyy-mm-dd") & ".xlsx"
+        EmailTo = "claude.tutterow@doosan.com"
+    ElseIf OORType = "production" Then
+        FileName = "DSN Report " & Format(Date, "yyyy-mm-dd") & ".xlsx"
+        EmailTo = "dione.guy@doosan.com"
+    Else
+        Err.Raise CustErr.UNRECOGNIZED_REPORT, "ExportDSNReport", "The report type was not recognized."
+    End If
+
+    Application.DisplayAlerts = False
+    Sheets("DSN Report").Copy
+    ActiveWorkbook.SaveAs FilePath & FileName, xlOpenXMLWorkbook
+    ActiveWorkbook.Close
+    Application.DisplayAlerts = PrevDispAlert
+
+    Email SendTo:=EmailTo, _
+          Subject:="Open Order Report", _
+          Body:="Attached is an updated copy of the open order report.", _
+          Attachment:=FilePath & FileName
+End Sub
