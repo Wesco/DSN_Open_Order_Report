@@ -40,7 +40,7 @@ Sub FormatDSNOOR()
     'Compare correct column headers to actual column headers
     For i = 0 To UBound(ColHeaders)
         If Cells(1, i + 1).Value <> ColHeaders(i) Then
-            Err.Raise CustErr.INVALID_COLUMN_ORDER, "FormatOOR", "The Doosan OOR column order is invalid."
+            Err.Raise CustErr.INVALID_COLUMN_ORDER, "FormatDSNOOR", "The Doosan OOR column order is invalid."
         End If
     Next
 
@@ -230,14 +230,14 @@ Sub Format117()
 End Sub
 
 '---------------------------------------------------------------------------------------
-' Proc : FormatOOR
+' Proc : FormatReport
 ' Date : 1/20/2014
 ' Desc : Format the open order report
 '---------------------------------------------------------------------------------------
-Sub FormatOOR()
+Sub FormatReport(Sheet As Worksheet)
     Dim TotalCols As Integer
-    
-    Sheets("Open Order Report").Select
+
+    Sheet.Select
     TotalCols = ActiveSheet.UsedRange.Columns.Count
 
     With ActiveSheet.UsedRange
@@ -272,4 +272,24 @@ Sub FormatOOR()
     ActiveSheet.ListObjects(1).Unlist
     Range(Cells(1, 1), Cells(1, TotalCols)).Font.Color = RGB(255, 255, 255)
     Range("A1").Select
+End Sub
+
+Sub FormatDSNReport()
+    Dim TotalRows As Integer
+    Dim i As Integer
+
+    Sheets("DSN Report").Select
+    TotalRows = ActiveSheet.UsedRange.Rows.Count
+
+    For i = 2 To TotalRows
+        If Cells(i, 8).Value = 0 Then
+            With Cells(i, 8).Interior
+                .Pattern = xlSolid
+                .PatternThemeColor = xlThemeColorAccent1
+                .ThemeColor = xlThemeColorAccent2
+                .TintAndShade = 0.799981688894314
+                .PatternTintAndShade = 0.799981688894314
+            End With
+        End If
+    Next
 End Sub
