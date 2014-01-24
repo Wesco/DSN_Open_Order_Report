@@ -36,6 +36,11 @@ Sub ExportOOR()
           Body:="An updated copy of the Doosan " & OORType & " open order report can be found on the network <a href=""" & FilePath & FileName & FileExt & """" & ">here</a>."
 End Sub
 
+'---------------------------------------------------------------------------------------
+' Proc : ExportDSNReport
+' Date : 1/24/2014
+' Desc : Exports DSN Report to the network and emails a copy to Doosan
+'---------------------------------------------------------------------------------------
 Sub ExportDSNReport()
     Dim PrevDispAlert As Boolean
     Dim FileName As String

@@ -17,7 +17,7 @@ Sub Main()
     ElseIf Sheets("DSN OOR").Range("B1").Value = "STA Inventory Org" Then
         OORType = "production"
     Else
-        Err.Raise CustErr.UNRECOGNIZED_REPORT, "FormatOOR", "The imported report is unrecognized."
+        Err.Raise CustErr.UNRECOGNIZED_REPORT, "Main", "The imported report is unrecognized."
     End If
 
     ImportMaster
@@ -26,7 +26,7 @@ Sub Main()
     FormatDSNOOR
     Format117
     CreateOOR
-    FormatOOR
+    FormatReport Sheets("Open Order Report")
     ExportOOR
     Clean
     Application.ScreenUpdating = True
@@ -45,6 +45,33 @@ MAIN_ERR:
             MsgBox "Error " & Err.Number & " (" & Err.Description & ") occured in " & Err.Source, vbOKOnly, "Oops! An error has occured"
     End Select
     Clean
+End Sub
+
+'---------------------------------------------------------------------------------------
+' Proc : SendReport
+' Date : 1/24/2014
+' Desc : Makes a filtered copy of the report and emails it to doosan
+'---------------------------------------------------------------------------------------
+Sub SendReport()
+    On Error GoTo SEND_ERR
+    frmSendRep.Show
+    ImportPrevOOR
+    CreateDSNReport
+    FormatReport Sheets("DSN Report")
+    FormatDSNReport
+    ExportDSNReport
+    Clean
+    MsgBox "Complete!"
+    On Error GoTo 0
+    Exit Sub
+
+SEND_ERR:
+    Select Case Err.Number
+        Case CustErr.UNRECOGNIZED_REPORT
+            MsgBox Err.Description, vbOKOnly, "Oops! Error " & Err.Number & " has occured"
+        Case Else
+            MsgBox "Error " & Err.Number & " (" & Err.Description & ") occured in " & Err.Source, vbOKOnly, "Oops! An error has occured"
+    End Select
 End Sub
 
 Sub Clean()
