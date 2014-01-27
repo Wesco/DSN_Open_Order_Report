@@ -25,6 +25,7 @@ AllowNoIcons=yes
 OutputBaseFilename=Setup
 Compression=lzma
 SolidCompression=yes
+OutputDir=Output
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
