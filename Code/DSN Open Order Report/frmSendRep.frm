@@ -16,6 +16,7 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Private Sub btnCancel_Click()
+    OORType = ""
     Unload Me
 End Sub
 

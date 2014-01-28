@@ -54,7 +54,14 @@ End Sub
 '---------------------------------------------------------------------------------------
 Sub SendReport()
     On Error GoTo SEND_ERR
+    
     frmSendRep.Show
+    If OORType = "" Then
+        Clean
+        MsgBox "Macro canceled!", vbOKOnly, "Canceled"
+        Exit Sub
+    End If
+    
     ImportPrevOOR
     CreateDSNReport
     FormatReport Sheets("DSN Report")
