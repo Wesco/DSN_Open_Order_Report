@@ -51,10 +51,10 @@ Sub ExportDSNReport()
     FilePath = "\\7938-HP02\Shared\Doosan\Open Order Report\" & Year(Date) & "\" & Format(Date, "mmm") & "\"
 
     If OORType = "aftermarket" Then
-        FileName = "DSN Report " & Format(Date, "yyyy-mm-dd") & ".xlsx"
+        FileName = "DSN Aftermarket Report " & Format(Date, "yyyy-mm-dd") & ".xlsx"
         EmailTo = "claude.tutterow@doosan.com"
     ElseIf OORType = "production" Then
-        FileName = "DSN Report " & Format(Date, "yyyy-mm-dd") & ".xlsx"
+        FileName = "DSN Production Report " & Format(Date, "yyyy-mm-dd") & ".xlsx"
         EmailTo = "dione.guy@doosan.com"
     Else
         Err.Raise CustErr.UNRECOGNIZED_REPORT, "ExportDSNReport", "The report type was not recognized."
