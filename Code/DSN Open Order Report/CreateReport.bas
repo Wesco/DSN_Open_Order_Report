@@ -56,8 +56,11 @@ Sub CreateOOR()
 
     Sheets("DSN OOR").Select
     TotalRows = ActiveSheet.UsedRange.Rows.Count
-    PrevOORCols = Sheets("Prev OOR").UsedRange.Columns.Count
-
+    
+    Sheets("Prev OOR").Select
+    PrevOORCols = Columns(Columns.Count).End(xlToLeft).Column
+    
+    Sheets("DSN OOR").Select
     Range("A1:A" & TotalRows).Copy Destination:=Sheets("Open Order Report").Range("A1")    'UID
     Range("E1:E" & TotalRows).Copy Destination:=Sheets("Open Order Report").Range("B1")    'Order Number
     Range("G1:G" & TotalRows).Copy Destination:=Sheets("Open Order Report").Range("C1")    'Release Number
