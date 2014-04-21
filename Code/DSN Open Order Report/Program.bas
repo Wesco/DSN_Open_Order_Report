@@ -1,6 +1,6 @@
 Attribute VB_Name = "Program"
 Option Explicit
-Public Const VersionNumber = "1.1.2"
+Public Const VersionNumber = "1.1.3"
 Public Const RepositoryName = "DSN_Open_Order_Report"
 Public OORType As String    'This will be either aftermarket or production
 

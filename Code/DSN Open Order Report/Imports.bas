@@ -43,7 +43,7 @@ Sub Import117()
     'Look back up to 30 days for the 117 open order report
     For i = 0 To 30
         dt = Date - i
-        FileName = "3615 " & Format(dt, "yyyy-mm-dd") & " ALLORDERS.xlsx"
+        FileName = "3615 " & Format(dt, "yyyy-mm-dd") & " ALLORDERS.csv"
         If FileExists(FilePath & FileName) Then
             Exit For
         End If
