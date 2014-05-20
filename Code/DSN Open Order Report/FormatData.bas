@@ -47,7 +47,7 @@ Sub FormatDSNOOR()
     'Create UID column
     Columns(1).Insert
     Range("A1").Value = "UID"
-    Range("A2:A" & TotalRows).Formula = "=""'""&E2&""-""&G2&C2"
+    Range("A2:A" & TotalRows).Formula = "=""'""&E2&G2&H2&I2"
     Range("A2:A" & TotalRows).Value = Range("A2:A" & TotalRows).Value
 
     TotalCols = ActiveSheet.UsedRange.Columns.Count
