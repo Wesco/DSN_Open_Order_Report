@@ -64,17 +64,18 @@ Sub CreateOOR()
     Range("A1:A" & TotalRows).Copy Destination:=Sheets("Open Order Report").Range("A1")    'UID
     Range("E1:E" & TotalRows).Copy Destination:=Sheets("Open Order Report").Range("B1")    'Order Number
     Range("G1:G" & TotalRows).Copy Destination:=Sheets("Open Order Report").Range("C1")    'Release Number
-    Range("I1:I" & TotalRows).Copy Destination:=Sheets("Open Order Report").Range("D1")    'Shipment Number
-    Range("C1:C" & TotalRows).Copy Destination:=Sheets("Open Order Report").Range("E1")    'Part Number
-    Range("D1:D" & TotalRows).Copy Destination:=Sheets("Open Order Report").Range("F1")    'Description
-    Range("N1:N" & TotalRows).Copy Destination:=Sheets("Open Order Report").Range("G1")    'Due Date
+    Range("H1:H" & TotalRows).Copy Destination:=Sheets("Open Order Report").Range("D1")    'Release Number
+    Range("I1:I" & TotalRows).Copy Destination:=Sheets("Open Order Report").Range("E1")    'Shipment Number
+    Range("C1:C" & TotalRows).Copy Destination:=Sheets("Open Order Report").Range("F1")    'Part Number
+    Range("D1:D" & TotalRows).Copy Destination:=Sheets("Open Order Report").Range("G1")    'Description
+    Range("N1:N" & TotalRows).Copy Destination:=Sheets("Open Order Report").Range("H1")    'Due Date
 
     Sheets("Open Order Report").Select
     TotalRows = ActiveSheet.UsedRange.Rows.Count
 
     AddColumn "Wesco Order", "=IFERROR(VLOOKUP(A2,117!A:B,2,FALSE),"""")"
     AddColumn "Wesco PO", "=IFERROR(VLOOKUP(A2,117!A:L,12,FALSE),"""")"
-    AddColumn "SIM", "=IFERROR(IF(VLOOKUP(E2,Master!A:B,2,FALSE)=0,"""",""'""&VLOOKUP(E2,Master!A:B,2,FALSE)),"""")"
+    AddColumn "SIM", "=IFERROR(IF(VLOOKUP(F2,Master!A:B,2,FALSE)=0,"""",""'""&VLOOKUP(F2,Master!A:B,2,FALSE)),"""")"
     AddColumn "Supplier", "=IFERROR(IF(VLOOKUP(A2,117!A:N,14,FALSE)=0,"""",""'""&VLOOKUP(A2,117!A:N,14,FALSE)),"""")"
     AddColumn "Promise Date", "=IFERROR(IF(VLOOKUP(A2,117!A:M,13,FALSE)=0,"""",VLOOKUP(A2,117!A:M,13,FALSE)),"""")", "m/d/yyyy"
     AddColumn "Ordered", "=IFERROR(VLOOKUP(A2,'DSN OOR'!A:K,11,FALSE),0)"
