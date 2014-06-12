@@ -76,7 +76,10 @@ Sub CreateOOR()
 
     AddColumn "Wesco Order", "=IFERROR(VLOOKUP(A2,117!A:B,2,FALSE),"""")"
     AddColumn "Wesco PO", "=IFERROR(VLOOKUP(A2,117!A:L,12,FALSE),"""")"
-    AddColumn "SIM", "=IFERROR(IF(VLOOKUP(G2,Master!A:B,2,FALSE)=0,"""",""'""&VLOOKUP(G2,Master!A:B,2,FALSE)),"""")"
+    
+    'F2 = Part Number
+    AddColumn "SIM", "=IFERROR(IF(VLOOKUP(F2,Master!A:B,2,FALSE)=0,"""",""'""&VLOOKUP(F2,Master!A:B,2,FALSE)),"""")"
+    
     AddColumn "Supplier", "=IFERROR(IF(VLOOKUP(A2,117!A:N,14,FALSE)=0,"""",""'""&VLOOKUP(A2,117!A:N,14,FALSE)),"""")"
     AddColumn "Promise Date", "=IFERROR(IF(VLOOKUP(A2,117!A:M,13,FALSE)=0,"""",VLOOKUP(A2,117!A:M,13,FALSE)),"""")", "m/d/yyyy"
     AddColumn "Ordered", "=IFERROR(VLOOKUP(A2,'DSN OOR'!A:K,11,FALSE),0)"
